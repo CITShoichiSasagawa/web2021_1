@@ -2,17 +2,15 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('test2.db');
 
 let sql = `
-select id, name, maker_id from board;
+insert into maker ("name") values ("BCSTREAM");
 `
 
 db.serialize( () => {
-	db.all( sql, (error, row) => {
+	db.run( sql, (error, row) => {
 		if(error) {
 			console.log('Error: ', error );
 			return;
 		}
-		for( let data of row ) {
-			console.log( data.id + ' : ' + data.name + ' : ' + data.maker_id );
-		}
+		console.log( "データを追加しました" );
 	});
 });

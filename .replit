@@ -12,7 +12,6 @@ channel = "stable-22_05"
 [packager]
 language = "nodejs"
 
-
 [packager.features]
 packageSearch = true
 guessImports = true
