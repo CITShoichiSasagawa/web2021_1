@@ -8,6 +8,7 @@ create table maker(
 );
 `
 
+
 db.serialize( () => {
 	db.run( schema, (error, row) => {
 		if(error) {
