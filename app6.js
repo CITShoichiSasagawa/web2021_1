@@ -6,6 +6,8 @@ const db = new sqlite3.Database('test2.db');
 
 app.set('view engine', 'ejs');
 app.use("/public", express.static(__dirname + "/public"));
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   const message = "こんにちは";
@@ -42,21 +44,35 @@ app.get("/maker", (req, res) => {
             if( error ) {
                 res.render('show', {mes:"エラーです"});
             }
-            res.render('select2', {data:row});
+            res.render('maker', {data:row});
         })
     })
 })
 
-app.get("/board", (req, res) => {
+app.get("/board/:id", (req, res) => {
     db.serialize( () => {
-        db.all("select id, name from board;", (error, row) => {
+        db.all("select id, name from board where maker_id ="+ req.params.id + ";", (error, row) => {
             if( error ) {
                 res.render('show', {mes:"エラーです"});
             }
-            res.render('select3', {data:row});
+            res.render('board', {data:row});
         })
     })
 })
+app.get("/insertmk", (req, res) => {
+    let sql = 'insert into maker (name) values("' + req.body.name + '");'
+    console.log(sql);
+    db.serialize( () => {
+      db.run( sql, (error, row) => {
+        console.log(error);
+        if(error) {
+          res.render('show', {mes:"エラーです"});
+        }
+        res.render('show', {mes:"成功です"});
+      });
+    });
+    console.log(req.body);
+});
 
 app.use(function(req, res, next) {
   res.status(404).send('ページが見つかりません');

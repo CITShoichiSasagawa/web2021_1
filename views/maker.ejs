@@ -10,9 +10,10 @@
       <% for( let row of data ) { %>
         <tr>
             <td><%= row.id %></td>
-            <td><a href="/board"><%= row.name %></a></td>
+            <td><a href="/board/<%= row.id %>"><%= row.name %></a></td>
         </tr>
       <% } %>
-  </table>
+  </table><br>
+  <input type="button" onclick="history.back()" value="戻る">&nbsp<input type="button" onclick="location.href='/public/insert01.html'" value="追加">
 </body>
 </html>
