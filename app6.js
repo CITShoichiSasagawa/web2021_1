@@ -10,7 +10,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  const message = "こんにちは";
+  const message = null;
   res.render('show', {mes:message});
 });
 
@@ -59,8 +59,23 @@ app.get("/board/:id", (req, res) => {
         })
     })
 })
-app.get("/insertmk", (req, res) => {
+app.post("/insertmk", (req, res) => {
     let sql = 'insert into maker (name) values("' + req.body.name + '");'
+    console.log(sql);
+    db.serialize( () => {
+      db.run( sql, (error, row) => {
+        console.log(error);
+        if(error) {
+          res.render('show', {mes:"エラーです"});
+        }
+        res.render('show', {mes:"成功です"});
+      });
+    });
+    console.log(req.body);
+});
+
+app.post("/insertb", (req, res) => {
+    let sql = 'insert into board (name,maker_id) values("' + req.body.name + '",' + req.body.maker_id + ');'
     console.log(sql);
     db.serialize( () => {
       db.run( sql, (error, row) => {

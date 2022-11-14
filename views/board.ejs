@@ -6,13 +6,14 @@
 </head>
 <body>
   <h2>ボード一覧</h2>
-  <table>
+  <table border="1">
       <% for( let row of data ) { %>
         <tr>
             <td><%= row.id %></td>
             <td><%= row.name %></td>
         </tr>
       <% } %>
-  </table>
+  </table><br>
+  <input type="button" onclick="history.back()" value="戻る">&nbsp<input type="button" onclick="location.href='/public/insert_board.html'" value="追加">
 </body>
 </html>
