@@ -68,6 +68,7 @@ app.post("/insertmk", (req, res) => {
         if(error) {
           res.render('show', {mes:"エラーです"});
         }
+        //res.redirect('/maker');
         res.render('show', {mes:"成功です"});
       });
     });
@@ -83,11 +84,24 @@ app.post("/insertb", (req, res) => {
         if(error) {
           res.render('show', {mes:"エラーです"});
         }
+        //res.redirect('/board');
         res.render('show', {mes:"成功です"});
       });
     });
     console.log(req.body);
 });
+
+app.get("/search", (req, res) => {
+    let sql = 'select board.id, board.name, maker.name as name2 from board inner join maker on board.maker_id=maker.id where board.name="' + req.query.name + '";'
+    db.serialize( () => {
+        db.all(sql, (error, data) => {
+            if( error ) {
+                res.render('show', {mes:"エラーです"});
+            }
+            res.render('search01', {data:data});
+        })
+    })
+})
 
 app.use(function(req, res, next) {
   res.status(404).send('ページが見つかりません');
