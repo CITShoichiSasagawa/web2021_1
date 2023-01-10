@@ -1,17 +1,17 @@
-<!Doctype html>
 <html>
 <head>
   <meta charset="utf-8">
   <title>Show message</title>
 </head>
 <body>
-  <h2>ボード一覧(メーカー別)</h2>
+  <h2>ボード一覧</h2>
   <a href="/public/search01.html">ボード検索</a>
   <table border="1">
       <% for( let row of data ) { %>
         <tr>
             <td><%= row.id %></td>
             <td><%= row.name %></td>
+            <td><%= row.name2 %></td>
         </tr>
       <% } %>
   </table><br>

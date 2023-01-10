@@ -59,6 +59,17 @@ app.get("/board/:id", (req, res) => {
         })
     })
 })
+
+app.get("/board2", (req, res) => {
+    db.serialize( () => {
+        db.all("select board.id, board.name, maker.name as name2 from board inner join maker on board.maker_id=maker.id;", (error, row) => {
+            if( error ) {
+                res.render('show', {mes:"エラーです"});
+            }
+            res.render('board2', {data:row});
+        })
+    })
+})
 app.post("/insertmk", (req, res) => {
     let sql = 'insert into maker (name) values("' + req.body.name + '");'
     console.log(sql);
@@ -92,7 +103,8 @@ app.post("/insertb", (req, res) => {
 });
 
 app.get("/search", (req, res) => {
-    let sql = 'select board.id, board.name, maker.name as name2 from board inner join maker on board.maker_id=maker.id where board.name="' + req.query.name + '";'
+    //let sql = 'select board.id, board.name, maker.name as name2 from board inner join maker on board.maker_id=maker.id where board.name="' + req.query.name + '";'
+    let sql = "select board.id, board.name, maker.name as name2 from board inner join maker on board.maker_id=maker.id where board.name like '%" + req.query.name + "%';"
     db.serialize( () => {
         db.all(sql, (error, data) => {
             if( error ) {
